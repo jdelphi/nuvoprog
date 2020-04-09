@@ -18,7 +18,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/erincandescent/nuvoprog/protocol"
+	"github.com/jdelphi/nuvoprog/protocol"
 )
 
 type Config interface {
