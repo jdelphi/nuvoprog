@@ -16,8 +16,8 @@ package n76
 import (
 	"errors"
 
-	"github.com/erincandescent/nuvoprog/protocol"
-	"github.com/erincandescent/nuvoprog/target"
+	"github.com/jdelphi/nuvoprog/protocol"
+	"github.com/jdelphi/nuvoprog/target"
 )
 
 //go:generate enumer -type=BootSelect -trimprefix=BootFrom -transform=snake -json -text
@@ -219,11 +219,12 @@ func (c *N76E003Config) GetLDROMSize() uint {
 	}
 }
 
+//	ProgMemSize: 12 * 1024,
 var N76E003 = &target.Definition{
 	Name:        "N76E003",
 	Family:      protocol.ChipFamilyN76E003,
 	DeviceID:    protocol.DeviceN76E003,
-	ProgMemSize: 12 * 1024,
+	ProgMemSize: 18 * 1024,
 	LDROMOffset: 0x3800,
 	Config: target.ConfigSpace{
 		IHexOffset: 0x30000,
