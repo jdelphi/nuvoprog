@@ -24,7 +24,7 @@ import (
 	"io/ioutil"
 	"os"
 	"strings"
-
+	"log"
 	"github.com/erincandescent/nuvoprog/ihex"
 	"github.com/erincandescent/nuvoprog/target"
 )
