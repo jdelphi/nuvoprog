@@ -49,7 +49,7 @@ func (d *TargetData) read(rd io.ReadCloser, offset, length uint32, config bool, 
 			d.Config = b.Data
 
 		default:
-			return fmt.Errorf("Block 0x%08x+%02d out of range for %s", b.Address, len(b.Data), kind)
+			return fmt.Errorf("Blocks 0x%08x+%02d out of range for %s, it's maximum is 0x%08x", b.Address, len(b.Data), kind, length)
 		}
 	}
 
