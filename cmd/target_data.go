@@ -25,8 +25,8 @@ import (
 	"os"
 	"strings"
 	"log"
-	"github.com/erincandescent/nuvoprog/ihex"
-	"github.com/erincandescent/nuvoprog/target"
+	"github.com/jdelphi/nuvoprog/ihex"
+	"github.com/jdelphi/nuvoprog/target"
 )
 
 type TargetData struct {
