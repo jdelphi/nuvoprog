@@ -291,9 +291,9 @@ func ReadTargetData(
 	ldromSz := cfgo.GetLDROMSize()
 	apromSz := td.ProgMemSize - ldromSz
 
-	log.Print("apromSz 0x%08x", apromSz)
-	log.Print("ProgMemSize 0x%08x", td.ProgMemSize)
-	log.Print("ldromSz 0x%08x", ldromSz)
+	log.Printf("apromSz 0x%08x", apromSz)
+	log.Printf("ProgMemSize 0x%08x", td.ProgMemSize)
+	log.Printf("ldromSz 0x%08x", ldromSz)
 	
 	if ldromSz == 0 && ldrom != "" {
 		return nil, errors.New("ldrom parameter specified but configuration does not support LDROM")
