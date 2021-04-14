@@ -30,7 +30,7 @@ these, have you considered OpenOCD?
 
 # Installing
 This is a Go project; install a Go toolchain and install it
-using `go get -u github.com/erincandescent/nuvoprog`. Ensure
+using `go get -u github.com/jdelphi/nuvoprog`. Ensure
 that `$GOPATH/bin` is on your path (`GOPATH` defaults to `$HOME/go`);
 alternatively, move the resulting binary to a location of your choice.
 
