@@ -11,7 +11,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-package n76
+package ms51
 
 import (
 	"errors"
@@ -22,17 +22,17 @@ import (
 
 //go:generate enumer -type=BootSelect -trimprefix=BootFrom -transform=snake -json -text
 
-type N76E003LDROMSize byte
+type MS51FBLDROMSize byte
 
 const (
-	N76E003LDROM0KB N76E003LDROMSize = iota
-	N76E003LDROM1KB
-	N76E003LDROM2KB
-	N76E003LDROM3KB
-	N76E003LDROM4KB
+	MS51FBLDROM0KB MS51FBLDROMSize = iota
+	MS51FBLDROM1KB
+	MS51FBLDROM2KB
+	MS51FBLDROM3KB
+	MS51FBLDROM4KB
 )
 
-type N76E003Config struct {
+type MS51FBConfig struct {
 	// CONFIG0.CBS[7]
 	BootSelect BootSelect `json:"boot_select"`
 	// CONFIG0.OCDPWM[5]
@@ -46,7 +46,7 @@ type N76E003Config struct {
 	Locked bool `json:"locked"`
 
 	// CONFIG1.LDSIZE[2:0]
-	LDROMSize N76E003LDROMSize `json:"ldrom_size"`
+	LDROMSize MS51FBLDROMSize `json:"ldrom_size"`
 
 	// CONFIG2.CBODEN[7]
 	BODDisabled bool `json:"bod_disabled"`
@@ -64,7 +64,7 @@ type N76E003Config struct {
 	WDT WDTMode `json:"wdt"`
 }
 
-func (cfg *N76E003Config) UnmarshalBinary(buf []byte) error {
+func (cfg *MS51FBConfig) UnmarshalBinary(buf []byte) error {
 	if len(buf) < 4 {
 		return errors.New("Too short for config bytes")
 	}
@@ -81,15 +81,15 @@ func (cfg *N76E003Config) UnmarshalBinary(buf []byte) error {
 
 	switch buf[1] & 0x7 {
 	case 7:
-		cfg.LDROMSize = N76E003LDROM0KB
+		cfg.LDROMSize = MS51FBLDROM0KB
 	case 6:
-		cfg.LDROMSize = N76E003LDROM1KB
+		cfg.LDROMSize = MS51FBLDROM1KB
 	case 5:
-		cfg.LDROMSize = N76E003LDROM2KB
+		cfg.LDROMSize = MS51FBLDROM2KB
 	case 4:
-		cfg.LDROMSize = N76E003LDROM3KB
+		cfg.LDROMSize = MS51FBLDROM3KB
 	default:
-		cfg.LDROMSize = N76E003LDROM4KB
+		cfg.LDROMSize = MS51FBLDROM4KB
 	}
 
 	cfg.BODDisabled = buf[2]&0x80 == 0
@@ -118,7 +118,7 @@ func (cfg *N76E003Config) UnmarshalBinary(buf []byte) error {
 	return nil
 }
 
-func (cfg *N76E003Config) MarshalBinary() ([]byte, error) {
+func (cfg *MS51FBConfig) MarshalBinary() ([]byte, error) {
 	buf := make([]byte, 8)
 	for i := range buf {
 		buf[i] = 0xFF
@@ -145,15 +145,15 @@ func (cfg *N76E003Config) MarshalBinary() ([]byte, error) {
 	}
 
 	switch cfg.LDROMSize {
-	case N76E003LDROM0KB:
+	case MS51FBLDROM0KB:
 		buf[1] = 0xFF
-	case N76E003LDROM1KB:
+	case MS51FBLDROM1KB:
 		buf[1] = 0xFE
-	case N76E003LDROM2KB:
+	case MS51FBLDROM2KB:
 		buf[1] = 0xFD
-	case N76E003LDROM3KB:
+	case MS51FBLDROM3KB:
 		buf[1] = 0xFC
-	case N76E003LDROM4KB:
+	case MS51FBLDROM4KB:
 		buf[1] = 0xFB
 	}
 
@@ -190,7 +190,7 @@ func (cfg *N76E003Config) MarshalBinary() ([]byte, error) {
 	}
 
 	// Sense checking: We should unmarshal to the same values
-	var newCfg N76E003Config
+	var newCfg MS51FBConfig
 	if err := newCfg.UnmarshalBinary(buf); err != nil {
 		return nil, err
 	}
@@ -202,17 +202,17 @@ func (cfg *N76E003Config) MarshalBinary() ([]byte, error) {
 	return buf, nil
 }
 
-func (c *N76E003Config) GetLDROMSize() uint {
+func (c *MS51FBConfig) GetLDROMSize() uint {
 	switch c.LDROMSize {
-	case N76E003LDROM0KB:
+	case MS51FBLDROM0KB:
 		return 0
-	case N76E003LDROM1KB:
+	case MS51FBLDROM1KB:
 		return 1024
-	case N76E003LDROM2KB:
+	case MS51FBLDROM2KB:
 		return 2048
-	case N76E003LDROM3KB:
+	case MS51FBLDROM3KB:
 		return 3072
-	case N76E003LDROM4KB:
+	case MS51FBLDROM4KB:
 		return 4096
 	default:
 		panic("Invalid size")
@@ -220,10 +220,10 @@ func (c *N76E003Config) GetLDROMSize() uint {
 }
 
 //	ProgMemSize: 12 * 1024,
-var N76E003 = &target.Definition{
-	Name:        "N76E003",
+var MS51FB = &target.Definition{
+	Name:        "MS51FB",
 	Family:      protocol.ChipFamily1T8051,
-	DeviceID:    protocol.DeviceN76E003,
+	DeviceID:    protocol.DeviceMS51FB,
 	ProgMemSize: 18 * 1024,
 	LDROMOffset: 0x3800,
 	Config: target.ConfigSpace{
@@ -231,11 +231,11 @@ var N76E003 = &target.Definition{
 		MinSize:    4,
 		ReadSize:   8,
 		WriteSize:  32,
-		NewConfig:  func() target.Config { return new(N76E003Config) },
+		NewConfig:  func() target.Config { return new(MS51FBConfig) },
 	},
 }
 
 
 func init() {
-	target.Register(N76E003)
+	target.Register(MS51FB)
 }

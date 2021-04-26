@@ -18,4 +18,5 @@ package all
 
 import (
 	_ "github.com/jdelphi/nuvoprog/target/n76"
+	_ "github.com/jdelphi/nuvoprog/target/ms51"
 )

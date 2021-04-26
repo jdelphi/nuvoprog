@@ -13,7 +13,7 @@
 // limitations under the License.
 
 // package n76 contians N76 family device definitions
-package n76
+package ms51
 
 type BootSelect int
 
@@ -22,7 +22,7 @@ const (
 	BootFromAPROM
 )
 
-//go:generate enumer -type=N76E003LDROMSize -trimprefix=N76E003LDROM -transform=snake -json -text
+//go:generate enumer -type=MS51FBLDROMSize -trimprefix=MS51FBLDROM -transform=snake -json -text
 
 type BODVoltage byte
 
